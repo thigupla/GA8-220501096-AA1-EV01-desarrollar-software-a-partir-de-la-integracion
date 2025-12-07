@@ -8,6 +8,9 @@ class DatabaseService {
         this.conectado = false;
         this.datos = {};
         this.contadorId = 0;
+        // Constantes para simular latencia de red
+        this.DELAY_CONEXION = 100;
+        this.DELAY_OPERACION = 50;
     }
 
     /**
@@ -19,7 +22,7 @@ class DatabaseService {
             setTimeout(() => {
                 this.conectado = true;
                 resolve();
-            }, 100);
+            }, this.DELAY_CONEXION);
         });
     }
 
@@ -32,7 +35,7 @@ class DatabaseService {
             setTimeout(() => {
                 this.conectado = false;
                 resolve();
-            }, 100);
+            }, this.DELAY_CONEXION);
         });
     }
 
@@ -63,7 +66,7 @@ class DatabaseService {
                 }
                 this.datos[coleccion].push(datos);
                 resolve();
-            }, 50);
+            }, this.DELAY_OPERACION);
         });
     }
 
@@ -80,7 +83,7 @@ class DatabaseService {
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(this.datos[coleccion] || []);
-            }, 50);
+            }, this.DELAY_OPERACION);
         });
     }
 
@@ -100,7 +103,7 @@ class DatabaseService {
                 const registros = this.datos[coleccion] || [];
                 const encontrado = registros.find(r => r.id === id);
                 resolve(encontrado || null);
-            }, 50);
+            }, this.DELAY_OPERACION);
         });
     }
 }

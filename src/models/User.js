@@ -21,7 +21,8 @@ class User {
             throw new Error('El nombre debe tener al menos 2 caracteres');
         }
         
-        if (!this.email || !this.email.includes('@')) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!this.email || !emailRegex.test(this.email)) {
             throw new Error('El email no es válido');
         }
         
