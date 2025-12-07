@@ -48,7 +48,7 @@ class DataProcessor:
         return transformed
     
     @staticmethod
-    def aggregate_data(data: List[Dict[str, Any]], group_key: str, sum_key: str) -> Dict[str, float]:
+    def aggregate_data(data: List[Dict[str, Any]], group_key: str, sum_key: str) -> Dict[str, Any]:
         """
         Aggregate numeric data by grouping and summing.
         
@@ -58,7 +58,7 @@ class DataProcessor:
             sum_key: The numeric key to sum
             
         Returns:
-            Dictionary with grouped sums
+            Dictionary with grouped sums (values can be int or float)
         """
         result = {}
         for item in data:

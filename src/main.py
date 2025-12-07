@@ -2,6 +2,7 @@
 Main application demonstrating software integration.
 """
 
+from collections import Counter
 from integration import APIClient, DataProcessor, MockDataProvider
 
 
@@ -74,13 +75,23 @@ def demonstrate_data_processing(data):
     
     # Aggregate data
     print("\nAggregating posts by user...")
-    # Create synthetic data with counts for aggregation
-    count_data = [{"userId": post["userId"], "count": 1} for post in data]
-    aggregated = DataProcessor.aggregate_data(count_data, "userId", "count")
+    aggregated = Counter(post["userId"] for post in data)
     
     print("Posts per user:")
-    for user_id, count in aggregated.items():
+    for user_id, count in sorted(aggregated.items()):
         print(f"  User {user_id}: {count} posts")
+    
+    # Also demonstrate the aggregate_data method from DataProcessor
+    print("\nUsing DataProcessor.aggregate_data with sales example:")
+    sales_data = [
+        {"region": "North", "sales": 100},
+        {"region": "South", "sales": 150},
+        {"region": "North", "sales": 75},
+        {"region": "South", "sales": 200}
+    ]
+    sales_by_region = DataProcessor.aggregate_data(sales_data, "region", "sales")
+    for region, total in sales_by_region.items():
+        print(f"  {region}: {total} total sales")
 
 
 def main():
