@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { ServiceOrder } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.VITE_API_KEY });
 
 export const getMechanicalDiagnosis = async (order: ServiceOrder): Promise<string> => {
   try {
