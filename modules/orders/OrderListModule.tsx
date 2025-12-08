@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { MOCK_ORDERS } from '../../constants';
 import { ServiceOrder } from '../../types';
 import ServiceOrderCard from '../../components/ServiceOrderCard';
 import { Search, Plus } from 'lucide-react';
 
 interface OrderListModuleProps {
+  orders: ServiceOrder[];
   onOrderSelect: (order: ServiceOrder) => void;
+  onCreateOrder: () => void;
 }
 
-const OrderListModule: React.FC<OrderListModuleProps> = ({ onOrderSelect }) => {
+const OrderListModule: React.FC<OrderListModuleProps> = ({ orders, onOrderSelect, onCreateOrder }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Lógica de filtrado
-  const filteredOrders = MOCK_ORDERS.filter(order => 
+  const filteredOrders = orders.filter(order => 
     order.osNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.clientName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.vehicleModel.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -57,6 +58,7 @@ const OrderListModule: React.FC<OrderListModuleProps> = ({ onOrderSelect }) => {
 
       {/* FAB - Botón Flotante */}
       <button
+        onClick={onCreateOrder}
         className="absolute bottom-6 right-4 w-14 h-14 bg-indigo-500 text-white rounded-full shadow-lg flex items-center justify-center hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform active:scale-90 z-30"
         aria-label="Crear nueva orden"
       >

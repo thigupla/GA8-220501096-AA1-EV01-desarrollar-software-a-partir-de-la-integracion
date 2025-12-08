@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { ServiceOrder, OrderStatus } from '../types';
-import { ArrowLeft, Car, User, Calendar, AlertTriangle, Sparkles, Wrench, CheckSquare } from 'lucide-react';
+import { ArrowLeft, Car, User, Calendar, AlertTriangle, Sparkles, Wrench, CheckSquare, Trash2 } from 'lucide-react';
 import { getMechanicalDiagnosis } from '../services/geminiService';
 import ReactMarkdown from 'react-markdown';
 
 interface DetailViewProps {
   order: ServiceOrder;
   onBack: () => void;
+  onEdit: (order: ServiceOrder) => void;
+  onDelete: (orderId: string) => void;
 }
 
-const DetailView: React.FC<DetailViewProps> = ({ order, onBack }) => {
+const DetailView: React.FC<DetailViewProps> = ({ order, onBack, onEdit, onDelete }) => {
   const [diagnosis, setDiagnosis] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -139,13 +141,22 @@ const DetailView: React.FC<DetailViewProps> = ({ order, onBack }) => {
         </div>
         
         {/* Footer Actions */}
-        <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-end gap-3">
-          <button className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors">
-            Editar Orden
+        <div className="bg-gray-50 px-6 py-4 border-t border-gray-200 flex justify-between gap-3">
+          <button 
+            onClick={() => onDelete(order.id)}
+            className="px-4 py-2 bg-red-50 border border-red-300 rounded-lg text-red-700 text-sm font-medium hover:bg-red-100 transition-colors flex items-center gap-2"
+          >
+            <Trash2 className="w-4 h-4" />
+            Eliminar
           </button>
-          <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-            Actualizar Estado
-          </button>
+          <div className="flex gap-3">
+            <button 
+              onClick={() => onEdit(order)}
+              className="px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm font-medium hover:bg-gray-50 transition-colors"
+            >
+              Editar Orden
+            </button>
+          </div>
         </div>
       </div>
     </div>
