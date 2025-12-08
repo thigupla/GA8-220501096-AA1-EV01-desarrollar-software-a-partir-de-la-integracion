@@ -26,7 +26,7 @@ Para más detalles, consulta la [Documentación de Arquitectura](docs/ARQUITECTU
 
 ```
 .
-├── src/                    # Código fuente
+├── src/                    # Código fuente backend
 │   ├── controllers/        # Controladores de lógica de negocio
 │   │   └── UserController.js
 │   ├── models/            # Modelos de datos
@@ -35,7 +35,10 @@ Para más detalles, consulta la [Documentación de Arquitectura](docs/ARQUITECTU
 │   │   └── DatabaseService.js
 │   ├── utils/             # Utilidades
 │   │   └── Logger.js
-│   └── index.js           # Punto de entrada principal
+│   ├── server.js          # Servidor web Express
+│   └── index.js           # Lógica de integración (CLI)
+├── public/                # Archivos frontend
+│   └── index.html         # Interfaz web de usuario
 ├── tests/                 # Pruebas unitarias e integración
 │   ├── user.test.js
 │   └── README.md
@@ -45,6 +48,7 @@ Para más detalles, consulta la [Documentación de Arquitectura](docs/ARQUITECTU
 ├── config/                # Archivos de configuración
 │   └── config.js
 ├── .gitignore            # Archivos a ignorar en Git
+├── vercel.json           # Configuración de Vercel
 ├── package.json          # Dependencias y scripts
 └── README.md             # Este archivo
 ```
@@ -69,38 +73,67 @@ Para más detalles, consulta la [Documentación de Arquitectura](docs/ARQUITECTU
    npm install
    ```
 
-3. Ejecuta la aplicación:
+3. Ejecuta el servidor web:
    ```bash
    npm start
    ```
 
+4. Abre tu navegador en `http://localhost:3000`
+
 Para más detalles, consulta la [Guía de Instalación](docs/GUIA_INSTALACION.md).
+
+### Despliegue en Vercel
+
+Este proyecto está configurado para desplegarse fácilmente en Vercel:
+
+1. Sube el código a GitHub
+2. Importa el proyecto en [Vercel](https://vercel.com)
+3. Vercel detectará automáticamente la configuración
+4. ¡Tu aplicación estará en línea en segundos!
 
 ## 💻 Uso
 
-### Ejecutar la Aplicación
+### Ejecutar el Servidor Web
 
 ```bash
 npm start
 ```
 
-La aplicación ejecutará un ejemplo de integración que:
-1. Conecta a un servicio de base de datos simulado
-2. Crea un usuario de ejemplo
-3. Lista todos los usuarios
-4. Muestra logs informativos del proceso
-
-### Ejemplo de Salida
-
+El servidor se iniciará en `http://localhost:3000` y verás:
 ```
-[2024-XX-XX] [INFO] Iniciando aplicación...
-[2024-XX-XX] [INFO] Conexión a base de datos establecida
-[2024-XX-XX] [INFO] Creando usuario: juan.perez@ejemplo.com
-[2024-XX-XX] [INFO] Usuario creado exitosamente: ID-1-...
-[2024-XX-XX] [INFO] Usuario creado: { id: '...', nombre: 'Juan Pérez', ... }
-[2024-XX-XX] [INFO] Obteniendo lista de usuarios
-[2024-XX-XX] [INFO] Usuarios en el sistema: [...]
-[2024-XX-XX] [INFO] Aplicación finalizada
+[INFO] Servidor iniciado en puerto 3000
+[INFO] Visita http://localhost:3000 para ver la aplicación
+[INFO] Base de datos conectada
+```
+
+### Interfaz Web
+
+La aplicación incluye una interfaz web completa donde puedes:
+
+1. **Crear Usuarios**: Formulario interactivo para agregar usuarios con validación
+2. **Ver Lista de Usuarios**: Visualización en tiempo real de todos los usuarios registrados
+3. **Actualizar**: Botón para refrescar la lista de usuarios
+4. **Estado del Sistema**: Indicador visual del estado de conexión
+
+### API REST
+
+También puedes interactuar con la API directamente:
+
+**Obtener estado:**
+```bash
+curl http://localhost:3000/api/health
+```
+
+**Crear usuario:**
+```bash
+curl -X POST http://localhost:3000/api/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Juan Pérez","email":"juan@ejemplo.com","edad":25}'
+```
+
+**Listar usuarios:**
+```bash
+curl http://localhost:3000/api/usuarios
 ```
 
 ## 🧪 Pruebas
@@ -125,19 +158,25 @@ npm test
 
 ## 🔑 Características Principales
 
+- ✅ **Interfaz Web Interactiva**: Aplicación web completa con diseño moderno y responsive
+- ✅ **API RESTful**: Endpoints bien definidos para todas las operaciones
 - ✅ Arquitectura modular y escalable
-- ✅ Separación clara de responsabilidades
+- ✅ Separación clara de responsabilidades (MVC)
 - ✅ Inyección de dependencias
-- ✅ Validación de datos
-- ✅ Sistema de logging
-- ✅ Manejo de errores
-- ✅ Código bien documentado
+- ✅ Validación de datos robusta
+- ✅ Sistema de logging completo
+- ✅ Manejo de errores en todas las capas
+- ✅ Código bien documentado en español
 - ✅ Estructura de pruebas preparada
+- ✅ **Listo para Vercel**: Configuración incluida para despliegue instantáneo
 
 ## 🛠️ Tecnologías
 
 - **Node.js** - Entorno de ejecución
-- **JavaScript** - Lenguaje de programación
+- **Express.js** - Framework web para Node.js
+- **JavaScript** - Lenguaje de programación (frontend y backend)
+- **HTML5/CSS3** - Interfaz de usuario moderna y responsive
+- **Vercel** - Plataforma de despliegue
 - **Jest** (opcional) - Framework de pruebas
 
 ## 📝 Licencia
