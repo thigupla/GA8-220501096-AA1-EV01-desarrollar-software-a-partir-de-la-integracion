@@ -4,7 +4,7 @@
 AutoFix Pro is a Progressive Web App (PWA) designed to optimize workflow management in automotive repair shops. The application manages service orders and empowers mechanics with an AI-powered Diagnostic Assistant using Google's Gemini API.
 
 ## Technology Stack
-- **Frontend Framework:** React 18
+- **Frontend Framework:** React 19
 - **Language:** TypeScript (strict mode enabled)
 - **Styling:** Tailwind CSS (utility-first approach)
 - **Build Tool:** Vite
@@ -20,7 +20,7 @@ src/
 ├── components/      # Reusable UI components (Presentational)
 ├── contexts/        # Global state management (Auth, Theme)
 ├── layouts/         # Page layout structures (Header, Nav)
-├── modules/         # Business logic modules (Orders, Clients)
+├── modules/         # Business logic modules (Orders)
 ├── services/        # External API communication (Gemini)
 ├── types.ts         # Type definitions (Domain Layer)
 └── constants.ts     # Mock data and constants
