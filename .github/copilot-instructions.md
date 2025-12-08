@@ -60,7 +60,7 @@ src/
 
 ### AI Integration
 - The Gemini API is accessed through `services/geminiService.ts`
-- API key is configured via environment variable `process.env.API_KEY`
+- API key is configured via environment variable `GEMINI_API_KEY` (mapped to `process.env.API_KEY` in vite.config.ts)
 - AI responses are rendered using react-markdown
 - Error handling should provide user-friendly fallback messages
 
@@ -91,8 +91,10 @@ npm run preview
 ## Environment Variables
 Create a `.env` file in the root directory:
 ```env
-API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+Note: The Vite configuration (vite.config.ts) maps this to `process.env.API_KEY` for use in the application.
 
 ## State Management
 - Use React Context API for global state (authentication, theme)
