@@ -1,113 +1,191 @@
-# 🔧 AutoFix Pro: Gestión de Taller con IA
+# GA8-220501096-AA1-EV01 - Desarrollar Software a partir de la Integración
 
-> **Revolucionando la mecánica automotriz con asistencia de Inteligencia Artificial.**
+## 📋 Descripción
 
-![Status](https://img.shields.io/badge/Status-Prototipo_Funcional-success)
-![Tech](https://img.shields.io/badge/Stack-React_|_TypeScript_|_Tailwind-blue)
-![AI](https://img.shields.io/badge/AI-Powered_by_Gemini-purple)
+Este proyecto es una demostración práctica de desarrollo de software mediante la integración de componentes modulares. Implementa una arquitectura organizada siguiendo los principios de diseño SOLID y las mejores prácticas de desarrollo.
 
-**AutoFix Pro** es una solución web progresiva (PWA) diseñada para optimizar el flujo de trabajo en talleres mecánicos. No solo gestiona órdenes de servicio, sino que empodera a los mecánicos con un **Asistente de Diagnóstico basado en IA (Gemini)**, capaz de generar listas de verificación técnica basándose en los síntomas del vehículo.
+## 🎯 Objetivos del Proyecto
 
----
+- Demostrar la integración efectiva de componentes de software
+- Aplicar patrones de diseño y arquitectura modular
+- Implementar separación de responsabilidades
+- Proporcionar código bien documentado y mantenible
 
-## 🚀 Características Principales
+## 🏗️ Arquitectura
 
-### 📋 Gestión de Órdenes (Core)
-- **Tablero de Control:** Visualización clara de órdenes pendientes, en progreso y completadas.
-- **Búsqueda en Tiempo Real:** Filtrado instantáneo por placa, cliente o número de orden.
-- **Indicadores Visuales:** Código de colores semántico para estados de las órdenes.
+El proyecto sigue una arquitectura de **Modelo-Controlador-Servicio** con los siguientes componentes:
 
-### 🤖 Asistente Técnico IA (Gemini API)
-- **Diagnóstico Inteligente:** Al abrir una orden, el sistema analiza la descripción del problema (ej: "ruido en suspensión") y genera automáticamente un **Checklist Técnico** sugerido.
-- **Soporte a la Decisión:** Ayuda a los mecánicos junior a seguir procedimientos estandarizados sugeridos por la IA.
+- **Modelos**: Definen la estructura de datos y validaciones
+- **Controladores**: Implementan la lógica de negocio
+- **Servicios**: Gestionan el acceso a datos y recursos externos
+- **Utilidades**: Funciones auxiliares reutilizables
 
-### 📱 Experiencia de Usuario (UX)
-- **Diseño Mobile-First:** Interfaz optimizada para uso en tablets y móviles dentro del taller.
-- **Navegación Intuitiva:** Barra de navegación inferior y transiciones fluidas.
-- **Accesibilidad:** Uso de etiquetas ARIA y contrastes adecuados.
+Para más detalles, consulta la [Documentación de Arquitectura](docs/ARQUITECTURA.md).
 
----
+## 📁 Estructura del Proyecto
 
-## 🏗️ Arquitectura de Software
-
-Este proyecto ha sido construido siguiendo estrictos estándares de ingeniería de software, priorizando la escalabilidad y el mantenimiento.
-
-### Estructura Modular
-La aplicación se divide en capas lógicas para separar responsabilidades:
-
-```bash
-src/
-├── 📂 components/      # Componentes UI reutilizables (Presentational)
-├── 📂 contexts/        # Gestión de Estado Global (Auth, Theme)
-├── 📂 layouts/         # Estructuras de página (Header, Nav)
-├── 📂 modules/         # Módulos de negocio (Orders, Clients)
-│   └── 📂 orders/      # Lógica específica del dominio de órdenes
-├── 📂 services/        # Comunicación con APIs externas (Gemini)
-└── 📄 types.ts         # Definiciones de Tipos (Domain Layer)
+```
+.
+├── src/                    # Código fuente backend
+│   ├── controllers/        # Controladores de lógica de negocio
+│   │   └── UserController.js
+│   ├── models/            # Modelos de datos
+│   │   └── User.js
+│   ├── services/          # Servicios de acceso a datos
+│   │   └── DatabaseService.js
+│   ├── utils/             # Utilidades
+│   │   └── Logger.js
+│   ├── server.js          # Servidor web Express
+│   └── index.js           # Lógica de integración (CLI)
+├── public/                # Archivos frontend
+│   └── index.html         # Interfaz web de usuario
+├── tests/                 # Pruebas unitarias e integración
+│   ├── user.test.js
+│   └── README.md
+├── docs/                  # Documentación
+│   ├── ARQUITECTURA.md
+│   └── GUIA_INSTALACION.md
+├── config/                # Archivos de configuración
+│   └── config.js
+├── .gitignore            # Archivos a ignorar en Git
+├── vercel.json           # Configuración de Vercel
+├── package.json          # Dependencias y scripts
+└── README.md             # Este archivo
 ```
 
-### Patrones de Diseño Aplicados
-1.  **Container/Presenter Pattern:** Separación entre lógica (`OrderListModule`) y vista (`ServiceOrderCard`).
-2.  **Provider Pattern:** Uso de `AuthContext` para inyectar la sesión del usuario en toda la aplicación.
-3.  **Adapter/Service Pattern:** Encapsulamiento de la llamada a la API de Google Gemini en `geminiService.ts`, desacoplando la IA de la vista.
+## 🚀 Inicio Rápido
 
----
+### Requisitos Previos
 
-## 🛠️ Stack Tecnológico
+- Node.js v14 o superior
+- npm (Node Package Manager)
 
-*   **Frontend Core:** React 18
-*   **Lenguaje:** TypeScript (Tipado estricto para mayor robustez)
-*   **Estilos:** Tailwind CSS (Utility-first framework)
-*   **Inteligencia Artificial:** Google GenAI SDK (Gemini 2.5 Flash)
-*   **Iconografía:** Lucide React
+### Instalación
 
----
+1. Clona el repositorio:
+   ```bash
+   git clone <url-del-repositorio>
+   cd GA8-220501096-AA1-EV01-desarrollar-software-a-partir-de-la-integracion
+   ```
 
-## 🏁 Instalación y Ejecución
+2. Instala las dependencias:
+   ```bash
+   npm install
+   ```
 
-Sigue estos pasos para desplegar el entorno de desarrollo local:
+3. Ejecuta el servidor web:
+   ```bash
+   npm start
+   ```
 
-1.  **Clonar el repositorio:**
-    ```bash
-    git clone https://github.com/tu-usuario/autofix-pro.git
-    cd autofix-pro
-    ```
+4. Abre tu navegador en `http://localhost:3000`
 
-2.  **Instalar dependencias:**
-    ```bash
-    npm install
-    ```
+Para más detalles, consulta la [Guía de Instalación](docs/GUIA_INSTALACION.md).
 
-3.  **Configurar Variables de Entorno:**
-    Crea un archivo `.env` en la raíz y añade tu API Key de Google Gemini:
-    ```env
-    REACT_APP_GEMINI_API_KEY=tu_api_key_aqui
-    ```
+### Despliegue en Vercel
 
-4.  **Ejecutar:**
-    ```bash
-    npm run start
-    ```
-    Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+Este proyecto está configurado para desplegarse fácilmente en Vercel:
 
----
+1. Sube el código a GitHub
+2. Importa el proyecto en [Vercel](https://vercel.com)
+3. Vercel detectará automáticamente la configuración
+4. ¡Tu aplicación estará en línea en segundos!
 
-## 📸 Vistas del Sistema
+📘 **[Guía Completa de Despliegue en Vercel](docs/DESPLIEGUE_VERCEL.md)** - Instrucciones detalladas y solución de problemas
 
-| Lista de Órdenes | Detalle con IA |
-|:---:|:---:|
-| *Búsqueda y filtrado rápido* | *Diagnóstico generado por Gemini* |
-| (Inserte captura aquí) | (Inserte captura aquí) |
+## 💻 Uso
 
----
+### Ejecutar el Servidor Web
 
-## 🤝 Contribución
+```bash
+npm start
+```
 
-Las contribuciones son bienvenidas. Por favor, asegúrate de seguir los lineamientos de código (Linter & Prettier) y usar la convención de commits semánticos.
+El servidor se iniciará en `http://localhost:3000` y verás:
+```
+[INFO] Servidor iniciado en puerto 3000
+[INFO] Visita http://localhost:3000 para ver la aplicación
+[INFO] Base de datos conectada
+```
 
-## 📄 Licencia
+### Interfaz Web
 
-Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+La aplicación incluye una interfaz web completa donde puedes:
 
----
-*Desarrollado con ❤️ para modernizar la industria automotriz.*
+1. **Crear Usuarios**: Formulario interactivo para agregar usuarios con validación
+2. **Ver Lista de Usuarios**: Visualización en tiempo real de todos los usuarios registrados
+3. **Actualizar**: Botón para refrescar la lista de usuarios
+4. **Estado del Sistema**: Indicador visual del estado de conexión
+
+### API REST
+
+También puedes interactuar con la API directamente:
+
+**Obtener estado:**
+```bash
+curl http://localhost:3000/api/health
+```
+
+**Crear usuario:**
+```bash
+curl -X POST http://localhost:3000/api/usuarios \
+  -H "Content-Type: application/json" \
+  -d '{"nombre":"Juan Pérez","email":"juan@ejemplo.com","edad":25}'
+```
+
+**Listar usuarios:**
+```bash
+curl http://localhost:3000/api/usuarios
+```
+
+## 🧪 Pruebas
+
+El proyecto incluye pruebas de ejemplo en el directorio `tests/`.
+
+Para ejecutar las pruebas (requiere Jest):
+
+```bash
+# Instalar Jest
+npm install --save-dev jest
+
+# Ejecutar pruebas
+npm test
+```
+
+## 📚 Documentación Adicional
+
+- [Arquitectura del Sistema](docs/ARQUITECTURA.md) - Descripción detallada de la arquitectura
+- [Guía de Instalación](docs/GUIA_INSTALACION.md) - Instrucciones de instalación completas
+- [Despliegue en Vercel](docs/DESPLIEGUE_VERCEL.md) - Guía paso a paso para desplegar en Vercel
+- [Tests README](tests/README.md) - Información sobre pruebas
+
+## 🔑 Características Principales
+
+- ✅ **Interfaz Web Interactiva**: Aplicación web completa con diseño moderno y responsive
+- ✅ **API RESTful**: Endpoints bien definidos para todas las operaciones
+- ✅ Arquitectura modular y escalable
+- ✅ Separación clara de responsabilidades (MVC)
+- ✅ Inyección de dependencias
+- ✅ Validación de datos robusta
+- ✅ Sistema de logging completo
+- ✅ Manejo de errores en todas las capas
+- ✅ Código bien documentado en español
+- ✅ Estructura de pruebas preparada
+- ✅ **Listo para Vercel**: Configuración incluida para despliegue instantáneo
+
+## 🛠️ Tecnologías
+
+- **Node.js** - Entorno de ejecución
+- **Express.js** - Framework web para Node.js
+- **JavaScript** - Lenguaje de programación (frontend y backend)
+- **HTML5/CSS3** - Interfaz de usuario moderna y responsive
+- **Vercel** - Plataforma de despliegue
+- **Jest** (opcional) - Framework de pruebas
+
+## 📝 Licencia
+
+MIT
+
+## 👥 Autor
+
+Proyecto desarrollado para la actividad GA8-220501096-AA1-EV01
