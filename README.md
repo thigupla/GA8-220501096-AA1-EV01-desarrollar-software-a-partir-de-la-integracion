@@ -91,6 +91,8 @@ Este proyecto está configurado para desplegarse fácilmente en Vercel:
 3. Vercel detectará automáticamente la configuración
 4. ¡Tu aplicación estará en línea en segundos!
 
+📘 **[Guía Completa de Despliegue en Vercel](docs/DESPLIEGUE_VERCEL.md)** - Instrucciones detalladas y solución de problemas
+
 ## 💻 Uso
 
 ### Ejecutar el Servidor Web
@@ -154,6 +156,7 @@ npm test
 
 - [Arquitectura del Sistema](docs/ARQUITECTURA.md) - Descripción detallada de la arquitectura
 - [Guía de Instalación](docs/GUIA_INSTALACION.md) - Instrucciones de instalación completas
+- [Despliegue en Vercel](docs/DESPLIEGUE_VERCEL.md) - Guía paso a paso para desplegar en Vercel
 - [Tests README](tests/README.md) - Información sobre pruebas
 
 ## 🔑 Características Principales
