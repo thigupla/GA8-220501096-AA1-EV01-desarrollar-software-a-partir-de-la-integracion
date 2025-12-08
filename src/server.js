@@ -58,7 +58,15 @@ app.post('/api/usuarios', async (req, res) => {
             });
         }
         
-        const usuario = await userController.crearUsuario({ nombre, email, edad: parseInt(edad) });
+        const edadNum = Number(edad);
+        if (isNaN(edadNum)) {
+            return res.status(400).json({ 
+                success: false, 
+                error: 'La edad debe ser un número válido.' 
+            });
+        }
+        
+        const usuario = await userController.crearUsuario({ nombre, email, edad: edadNum });
         res.json({ success: true, data: usuario.toJSON() });
     } catch (error) {
         logger.error('Error al crear usuario:', error.message);
@@ -86,16 +94,28 @@ app.get('/', (req, res) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     logger.info(`Servidor iniciado en puerto ${PORT}`);
     logger.info(`Visita http://localhost:${PORT} para ver la aplicación`);
 });
 
 // Manejo de cierre graceful
-process.on('SIGTERM', async () => {
+const shutdown = async () => {
     logger.info('Cerrando servidor...');
-    await dbService.disconnect();
-    process.exit(0);
-});
+    server.close(async () => {
+        await dbService.disconnect();
+        logger.info('Servidor cerrado correctamente');
+        process.exit(0);
+    });
+    
+    // Forzar cierre después de 10 segundos
+    setTimeout(() => {
+        logger.error('Forzando cierre del servidor...');
+        process.exit(1);
+    }, 10000);
+};
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 module.exports = app;
