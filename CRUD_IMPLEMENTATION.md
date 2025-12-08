@@ -13,6 +13,13 @@ Se ha implementado la funcionalidad completa CRUD (Crear, Leer, Modificar y Elim
 - Cierre con tecla ESC y clic fuera del modal
 - Previene scroll del body cuando está abierto
 
+#### `components/ConfirmDialog.tsx`
+- Diálogo de confirmación reutilizable con mejor UX que `window.confirm()`
+- Diseño visual consistente con el resto de la aplicación
+- Soporte para acciones peligrosas (modo "danger" con estilo rojo)
+- Animaciones suaves de entrada/salida
+- Cierre con tecla ESC
+
 #### `components/OrderForm.tsx`
 - Formulario completo para crear/editar órdenes
 - Campos incluidos:
@@ -31,11 +38,14 @@ Se ha implementado la funcionalidad completa CRUD (Crear, Leer, Modificar y Elim
 #### `App.tsx`
 - **Estado de órdenes**: Migrado de constante `MOCK_ORDERS` a estado React `useState<ServiceOrder[]>`
 - **Estado de modal**: Gestión de apertura/cierre y modo (crear/editar)
+- **Estado de confirmación**: Gestión del diálogo de confirmación de eliminación
 - **Funciones CRUD implementadas**:
   - `handleCreateOrder()`: Abre modal en modo creación
   - `handleEditOrder(order)`: Abre modal en modo edición con datos pre-cargados
-  - `handleDeleteOrder(orderId)`: Elimina orden con confirmación
-  - `handleSubmitOrder(orderData)`: Crea nueva orden o actualiza existente
+  - `handleDeleteOrder(orderId)`: Abre diálogo de confirmación para eliminar
+  - `handleConfirmDelete()`: Ejecuta la eliminación tras confirmación
+  - `handleSubmitOrder(orderData)`: Crea nueva orden con UUID o actualiza existente
+- **Generación de IDs**: Usa `crypto.randomUUID()` para IDs únicos y seguros
 - **Paso de props**: Pasa las funciones CRUD a componentes hijos
 
 #### `modules/orders/OrderListModule.tsx`
@@ -87,9 +97,10 @@ Se ha implementado la funcionalidad completa CRUD (Crear, Leer, Modificar y Elim
 ### ✅ Eliminar Orden (D - Delete)
 1. Usuario está en vista de detalle de una orden
 2. Hace clic en botón "Eliminar" (rojo, con ícono de papelera)
-3. Sistema solicita confirmación con `window.confirm()`
+3. Se abre diálogo de confirmación modal con diseño visual consistente
 4. Si confirma, la orden se elimina del estado
-5. Usuario es redirigido a la lista de órdenes
+5. Usuario es redirigido automáticamente a la lista de órdenes
+6. Si cancela, el diálogo se cierra y permanece en la vista de detalle
 
 ## Validaciones Implementadas
 
@@ -142,8 +153,11 @@ Abrir navegador en `http://localhost:5173`
 #### 3. Eliminar Orden
 - [ ] Seleccionar una orden de la lista
 - [ ] En vista de detalle, clic en "Eliminar"
-- [ ] Verificar que aparece confirmación
-- [ ] Confirmar eliminación
+- [ ] Verificar que aparece diálogo de confirmación modal
+- [ ] Verificar que el diálogo tiene diseño consistente (no ventana nativa del navegador)
+- [ ] Probar cerrar con ESC (debe cancelar)
+- [ ] Probar clic en "Cancelar" (debe permanecer en detalle)
+- [ ] Abrir confirmación nuevamente y confirmar eliminación
 - [ ] Verificar que regresa a la lista
 - [ ] Verificar que la orden ya no está en la lista
 
@@ -178,14 +192,24 @@ Se mantuvieron todos los estilos existentes:
 
 Nuevo estilo agregado:
 - Modal con backdrop oscuro semi-transparente
-- Animaciones de entrada/salida del modal
+- Animaciones de entrada/salida del modal (fade-in, slide-up)
 - Botón de eliminar con estilo distintivo rojo
+- Diálogo de confirmación con iconos de alerta
+- Modo "danger" en diálogo de confirmación (rojo para acciones destructivas)
+
+## Mejoras Implementadas tras Code Review
+
+1. **Generación de IDs robusta**: Se cambió de `Date.now()` a `crypto.randomUUID()` para evitar colisiones
+2. **Mejor UX en confirmaciones**: Se reemplazó `window.confirm()` por un componente `ConfirmDialog` personalizado con:
+   - Diseño visual consistente con la aplicación
+   - Animaciones suaves
+   - Modo "danger" para acciones destructivas
+   - Soporte para tecla ESC
 
 ## Limitaciones Conocidas
 
 1. **Sin persistencia**: Los datos se pierden al recargar la página (por diseño)
-2. **IDs simples**: Se usa `Date.now()` para generar IDs únicos (suficiente para prototipo local)
-3. **Sin sincronización**: Al ser estado local, no hay sincronización entre pestañas del navegador
+2. **Sin sincronización**: Al ser estado local, no hay sincronización entre pestañas del navegador
 
 ## Próximos Pasos (Fuera del alcance actual)
 

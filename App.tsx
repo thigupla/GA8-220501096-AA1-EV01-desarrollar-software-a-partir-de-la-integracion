@@ -6,6 +6,7 @@ import OrderListModule from './modules/orders/OrderListModule';
 import DetailView from './components/DetailView'; // Podría moverse a modules/orders/OrderDetailModule
 import Modal from './components/Modal';
 import OrderForm from './components/OrderForm';
+import ConfirmDialog from './components/ConfirmDialog';
 import { MOCK_ORDERS } from './constants';
 
 const App: React.FC = () => {
@@ -26,6 +27,15 @@ const App: React.FC = () => {
   }>({
     isOpen: false,
     mode: 'create',
+  });
+
+  // Estado del diálogo de confirmación
+  const [confirmDelete, setConfirmDelete] = useState<{
+    isOpen: boolean;
+    orderId: string | null;
+  }>({
+    isOpen: false,
+    orderId: null,
   });
 
   // Recuperar la orden seleccionada del estado
@@ -55,18 +65,27 @@ const App: React.FC = () => {
   };
 
   const handleDeleteOrder = (orderId: string) => {
-    if (window.confirm('¿Está seguro de que desea eliminar esta orden?')) {
-      setOrders(prev => prev.filter(o => o.id !== orderId));
+    setConfirmDelete({ isOpen: true, orderId });
+  };
+
+  const handleConfirmDelete = () => {
+    if (confirmDelete.orderId) {
+      setOrders(prev => prev.filter(o => o.id !== confirmDelete.orderId));
       handleBack(); // Return to list after deleting
     }
+    setConfirmDelete({ isOpen: false, orderId: null });
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDelete({ isOpen: false, orderId: null });
   };
 
   const handleSubmitOrder = (orderData: Omit<ServiceOrder, 'id'>) => {
     if (modalState.mode === 'create') {
-      // Create new order with unique ID
+      // Create new order with unique ID using crypto.randomUUID()
       const newOrder: ServiceOrder = {
         ...orderData,
-        id: String(Date.now()), // Simple ID generation
+        id: crypto.randomUUID(),
       };
       setOrders(prev => [newOrder, ...prev]);
     } else if (modalState.mode === 'edit' && modalState.order) {
@@ -121,6 +140,18 @@ const App: React.FC = () => {
             onCancel={handleCloseModal}
           />
         </Modal>
+
+        {/* Confirmation Dialog for Delete */}
+        <ConfirmDialog
+          isOpen={confirmDelete.isOpen}
+          title="Eliminar Orden"
+          message="¿Está seguro de que desea eliminar esta orden de servicio? Esta acción no se puede deshacer."
+          confirmLabel="Eliminar"
+          cancelLabel="Cancelar"
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          danger={true}
+        />
       </MainLayout>
     </AuthProvider>
   );
