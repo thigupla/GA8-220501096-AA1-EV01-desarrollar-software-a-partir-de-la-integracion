@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GA8-220501096 - Sistema de Integración de Software</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #10b981;
+            color: white;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+
+        .usuario-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .usuario-item h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .usuario-item p {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .architecture-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+
+        .architecture-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .architecture-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .architecture-section li {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+
+        .architecture-section li:before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Sistema de Integración de Software</h1>
+            <p class="subtitle">GA8-220501096-AA1-EV01 - Desarrollar Software a partir de la Integración</p>
+            <div class="status-badge" id="statusBadge">🔄 Verificando estado...</div>
+        </div>
+
+        <div class="main-content">
+            <div class="card">
+                <h2>📝 Crear Usuario</h2>
+                <div id="createAlert"></div>
+                <form id="createUserForm">
+                    <div class="form-group">
+                        <label for="nombre">Nombre completo:</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required placeholder="Ej: juan@ejemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="edad">Edad:</label>
+                        <input type="number" id="edad" name="edad" required min="1" max="120" placeholder="Ej: 25">
+                    </div>
+                    <button type="submit">Crear Usuario</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>👥 Lista de Usuarios</h2>
+                <div id="usuariosList">
+                    <div class="loading">Cargando usuarios...</div>
+                </div>
+                <button onclick="cargarUsuarios()" style="margin-top: 15px; background: #10b981;">Actualizar Lista</button>
+            </div>
+        </div>
+
+        <div class="architecture-section">
+            <h2>🏗️ Arquitectura del Sistema</h2>
+            <p style="color: #666; margin-bottom: 15px;">Esta aplicación demuestra la integración de componentes de software siguiendo los principios SOLID:</p>
+            <ul>
+                <li><strong>Modelo-Controlador-Servicio:</strong> Separación clara de responsabilidades</li>
+                <li><strong>Inyección de Dependencias:</strong> Componentes desacoplados y testables</li>
+                <li><strong>API RESTful:</strong> Comunicación estándar cliente-servidor</li>
+                <li><strong>Validación de Datos:</strong> Modelo con validaciones robustas</li>
+                <li><strong>Sistema de Logging:</strong> Trazabilidad de eventos</li>
+                <li><strong>Manejo de Errores:</strong> Respuestas consistentes y claras</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>Proyecto educativo - Desarrollado con Node.js, Express y JavaScript</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">© 2025 - Sistema de Integración de Software</p>
+        </div>
+    </div>
+
+    <script>
+        // Verificar estado del servidor
+        async function verificarEstado() {
+            try {
+                const response = await fetch('/api/health');
+                const data = await response.json();
+                document.getElementById('statusBadge').innerHTML = '✅ Sistema Activo';
+                document.getElementById('statusBadge').style.background = '#10b981';
+            } catch (error) {
+                document.getElementById('statusBadge').innerHTML = '❌ Error de Conexión';
+                document.getElementById('statusBadge').style.background = '#ef4444';
+            }
+        }
+
+        // Cargar usuarios
+        async function cargarUsuarios() {
+            const usuariosList = document.getElementById('usuariosList');
+            usuariosList.innerHTML = '<div class="loading">Cargando usuarios...</div>';
+            
+            try {
+                const response = await fetch('/api/usuarios');
+                const result = await response.json();
+                
+                if (result.success && result.data.length > 0) {
+                    usuariosList.innerHTML = result.data.map(usuario => `
+                        <div class="usuario-item">
+                            <h3>${usuario.nombre}</h3>
+                            <p><strong>Email:</strong> ${usuario.email}</p>
+                            <p><strong>Edad:</strong> ${usuario.edad} años</p>
+                            <p><strong>ID:</strong> ${usuario.id}</p>
+                            <p style="font-size: 0.85em; color: #999;"><strong>Creado:</strong> ${new Date(usuario.fechaCreacion).toLocaleString('es-ES')}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    usuariosList.innerHTML = '<div class="empty-state">📭 No hay usuarios registrados aún.<br>¡Crea el primero usando el formulario!</div>';
+                }
+            } catch (error) {
+                usuariosList.innerHTML = '<div class="alert alert-error">Error al cargar usuarios: ' + error.message + '</div>';
+            }
+        }
+
+        // Crear usuario
+        document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                edad: document.getElementById('edad').value
+            };
+            
+            const alertDiv = document.getElementById('createAlert');
+            
+            try {
+                const response = await fetch('/api/usuarios', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alertDiv.innerHTML = '<div class="alert alert-success">✅ Usuario creado exitosamente!</div>';
+                    document.getElementById('createUserForm').reset();
+                    cargarUsuarios();
+                    
+                    setTimeout(() => {
+                        alertDiv.innerHTML = '';
+                    }, 3000);
+                } else {
+                    alertDiv.innerHTML = '<div class="alert alert-error">❌ ' + result.error + '</div>';
+                }
+            } catch (error) {
+                alertDiv.innerHTML = '<div class="alert alert-error">❌ Error de conexión: ' + error.message + '</div>';
+            }
+        });
+
+        // Inicializar al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            verificarEstado();
+            cargarUsuarios();
+        });
+    </script>
+</body>
+</html>
